@@ -1,0 +1,24 @@
+{
+  "name": "schemasketch",
+  "description": "Design, edit, validate, import and export database diagrams with SchemaSketch's MCP server: SQL DDL, Laravel migrations and Eloquent models, Mermaid and PlantUML.",
+  "version": "1.0.0",
+  "author": {
+    "name": "SchemaSketch",
+    "url": "https://schemasketch.dev"
+  },
+  "homepage": "https://schemasketch.dev",
+  "repository": "https://github.com/sioannides/schemasketch-skills",
+  "license": "MIT",
+  "keywords": [
+    "database",
+    "schema",
+    "erd",
+    "dbml",
+    "sql",
+    "laravel",
+    "mermaid",
+    "plantuml",
+    "mcp"
+  ],
+  "icon": ".claude-plugin/icon.png"
+}

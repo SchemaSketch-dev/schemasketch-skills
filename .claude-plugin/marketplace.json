@@ -1,0 +1,18 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "schemasketch",
+  "description": "SchemaSketch's agent skill: design and manage database diagrams through the SchemaSketch MCP server.",
+  "owner": {
+    "name": "SchemaSketch",
+    "url": "https://schemasketch.dev"
+  },
+  "plugins": [
+    {
+      "name": "schemasketch",
+      "source": "./",
+      "description": "Design, edit, validate, import and export database diagrams with SchemaSketch's MCP server.",
+      "version": "1.0.0",
+      "category": "database"
+    }
+  ]
+}
