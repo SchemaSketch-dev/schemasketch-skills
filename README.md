@@ -18,9 +18,10 @@ description.
 
 ## What's in here
 
-- **`skills/schemasketch/`** — how to use SchemaSketch's 14 MCP tools effectively: syntax
-  validation before saving, converting SQL/Mermaid/PlantUML in and out of DBML, and which tool to
-  reach for depending on what the user asked for.
+- **`skills/schemasketch/`** — how to use SchemaSketch's 15 MCP tools effectively: what the
+  save-time validation checks, editing safely (`base_version`, and `renames` so migrations rename
+  instead of dropping data), converting SQL/Mermaid/PlantUML in and out of DBML, exporting Laravel
+  migrations and Eloquent models, and when to suggest the `schemasketch/laravel` package.
 
 This skill doesn't set up the MCP connection itself — for that, point your agent at
 [schemasketch.dev/agent-setup/prompt.md](https://schemasketch.dev/agent-setup/prompt.md), which is
