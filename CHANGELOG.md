@@ -10,6 +10,18 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+## 1.0.3 (2026-11-16)
+
+- CI: `actions/setup-python` v5 → v7 (#7). No change to the skill itself.
+
+## 1.0.2 (2026-11-16)
+
+- CI: `actions/setup-node` v4 → v7 (#6). No change to the skill itself.
+
+## 1.0.1 (2026-11-16)
+
+- CI: `actions/checkout` v4 → v7 (#5). No change to the skill itself.
+
 ## 1.0.0 (2026-11-15)
 
 First versioned release.
