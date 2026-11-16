@@ -10,6 +10,14 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+## 1.1.0 (2026-11-16)
+
+- Installable as a Gemini CLI extension (`gemini extensions install
+  https://github.com/sioannides/schemasketch-skills`) and an Antigravity plugin
+  (`agy plugin install …`). Both also connect the hosted MCP server, asking for
+  the SchemaSketch token on install or enable.
+- Checks and the release script cover the new manifests.
+
 ## 1.0.3 (2026-11-16)
 
 - CI: `actions/setup-python` v5 → v7 (#7). No change to the skill itself.

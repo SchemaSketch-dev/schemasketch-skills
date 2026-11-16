@@ -6,7 +6,7 @@
 #   scripts/release.sh minor     # 1.0.1 -> 1.1.0   new guidance (new tools, workflows)
 #   scripts/release.sh major     # 1.1.0 -> 2.0.0   changes that break old setups
 #       Prepares the release on dev: runs the checks, bumps the version in
-#       .claude-plugin/plugin.json and marketplace.json, dates the changelog,
+#       every manifest (Claude, Gemini CLI, Antigravity), dates the changelog,
 #       commits "Release X.Y.Z", pushes dev and opens a pull request to main.
 #
 #   scripts/release.sh tag
@@ -86,13 +86,14 @@ echo "Preparing $current -> $next ($mode)"
 echo "$notes" | sed 's/^/  /'
 
 if [ "$dry" = 1 ]; then
-  echo "  would set version $next in .claude-plugin/plugin.json and marketplace.json"
+  echo "  would set version $next in all four manifests"
   echo "  would rename \"## Unreleased\" to \"## $next ($(date +%F))\" in CHANGELOG.md"
 else
   python3 - "$next" <<'PY'
 import json, sys
 version = sys.argv[1]
-for path in (".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"):
+for path in (".claude-plugin/plugin.json", ".claude-plugin/marketplace.json",
+             "gemini-extension.json", ".antigravity-plugin/plugin.json"):
     data = json.load(open(path))
     if "plugins" in data:
         for plugin in data["plugins"]:
