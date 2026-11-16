@@ -10,6 +10,8 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+## 1.1.0 (2026-11-16)
+
 - Installable as a Gemini CLI extension (`gemini extensions install
   https://github.com/sioannides/schemasketch-skills`) and an Antigravity plugin
   (`agy plugin install …`). Both also connect the hosted MCP server, asking for
