@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "schemasketch": {
+      "serverUrl": "https://mcp.schemasketch.dev/mcp",
+      "headers": {
+        "Authorization": "Bearer ${SCHEMASKETCH_TOKEN}"
+      },
+      "variables": [
+        {
+          "name": "SCHEMASKETCH_TOKEN",
+          "title": "SchemaSketch token",
+          "description": "Personal access token. Sign in, click \"Connect AI agent\", choose Hosted, generate.",
+          "link": "https://schemasketch.dev/app"
+        }
+      ]
+    }
+  }
+}

@@ -4,6 +4,7 @@
 [![release](https://img.shields.io/github/v/release/sioannides/schemasketch-skills?label=release)](https://github.com/sioannides/schemasketch-skills/releases)
 [![skills.sh](https://img.shields.io/badge/skills.sh-schemasketch-black)](https://www.skills.sh/sioannides/schemasketch-skills)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-D97757)](#claude-code-plugin)
+[![Gemini CLI extension](https://img.shields.io/badge/Gemini%20CLI-extension-4285F4)](#gemini-cli-extension)
 [![license](https://img.shields.io/github/license/sioannides/schemasketch-skills)](LICENSE)
 
 Agent skills for working with [SchemaSketch](https://schemasketch.dev), a free
@@ -37,6 +38,29 @@ Or in two steps on older Claude Code versions:
 /plugin install schemasketch@schemasketch
 ```
 
+### Gemini CLI extension
+
+Installs the skill **and** connects the SchemaSketch MCP server in one step:
+
+```bash
+gemini extensions install https://github.com/sioannides/schemasketch-skills
+```
+
+It asks for your SchemaSketch token (get one at [schemasketch.dev/app](https://schemasketch.dev/app):
+"Connect AI agent" → Hosted) and keeps it in your system keychain. Change it later with
+`gemini extensions config schemasketch`. Update with `gemini extensions update schemasketch`.
+
+### Antigravity plugin
+
+Also installs the skill and connects the MCP server:
+
+```bash
+agy plugin install https://github.com/sioannides/schemasketch-skills
+agy plugin enable schemasketch
+```
+
+Enabling it asks for your SchemaSketch token.
+
 ## What's in here
 
 - **`skills/schemasketch/`** — how to use SchemaSketch's 15 MCP tools effectively: what the
@@ -44,7 +68,8 @@ Or in two steps on older Claude Code versions:
   instead of dropping data), converting SQL/Mermaid/PlantUML in and out of DBML, exporting Laravel
   migrations and Eloquent models, and when to suggest the `schemasketch/laravel` package.
 
-This skill doesn't set up the MCP connection itself — for that, point your agent at
+The skills CLI and the Claude Code plugin install the skill only, not the MCP connection
+(the Gemini CLI and Antigravity installs above do both). To connect, point your agent at
 [schemasketch.dev/agent-setup/prompt.md](https://schemasketch.dev/agent-setup/prompt.md), which is
 written to be fetched and executed directly by an agent.
 
@@ -53,7 +78,10 @@ written to be fetched and executed directly by an agent.
 `python3 scripts/check.py` (no dependencies) checks that:
 
 - every skill's frontmatter is valid (name matches its folder, description length);
-- the version in `.claude-plugin/` matches and has a changelog entry;
+- the version is the same in every manifest (Claude Code, Gemini CLI, Antigravity) and has a
+  changelog entry;
+- the Gemini CLI and Antigravity manifests connect to the server card's hosted URL, and every
+  token in their headers is one the user is asked for;
 - the tools the skill names are exactly the tools the live MCP server lists in its
   [server card](https://schemasketch.dev/.well-known/mcp/server-card.json);
 - every link answers.

@@ -7,8 +7,13 @@ Checks:
   1. Each skills/<name>/SKILL.md has frontmatter with `name` (matching its
      folder, kebab-case, at most 64 characters) and `description` (at most
      1024 characters).
-  2. The version in .claude-plugin/plugin.json and marketplace.json match,
-     and CHANGELOG.md has a section for it (or it's under "Unreleased").
+  2. The version is the same in every manifest (.claude-plugin/plugin.json,
+     marketplace.json, gemini-extension.json, .antigravity-plugin/plugin.json)
+     and CHANGELOG.md has a dated section for it.
+  2b. The Gemini CLI and Antigravity manifests connect to the hosted MCP
+     server, and every ${VAR} in their headers is declared as a setting /
+     variable the user is asked for. Online, the URL must be the server
+     card's streamable-http URL.
   3. The tools named in the SchemaSketch skill are exactly the tools the
      live MCP server lists in its server card. Run daily in CI, so a server
      change that makes the skill out of date turns the badge red.
@@ -84,19 +89,61 @@ for path in skills:
 print("Versions")
 plugin = json.loads((ROOT / ".claude-plugin/plugin.json").read_text())
 market = json.loads((ROOT / ".claude-plugin/marketplace.json").read_text())
+gemini = json.loads((ROOT / "gemini-extension.json").read_text())
+antigravity = json.loads((ROOT / ".antigravity-plugin/plugin.json").read_text())
+mcp_config = json.loads((ROOT / "mcp_config.json").read_text())
 version = plugin.get("version", "")
 listed = {p["name"]: p.get("version") for p in market.get("plugins", [])}
+versions = {
+    "marketplace.json": listed.get(plugin["name"]),
+    "gemini-extension.json": gemini.get("version"),
+    ".antigravity-plugin/plugin.json": antigravity.get("version"),
+}
 if not re.fullmatch(r"\d+\.\d+\.\d+", version):
     fail(f"plugin.json version {version!r} is not X.Y.Z")
-elif listed.get(plugin["name"]) != version:
-    fail(f"marketplace.json lists {plugin['name']} at {listed.get(plugin['name'])!r}, plugin.json says {version}")
 else:
-    ok(f"plugin.json and marketplace.json both at {version}")
+    wrong = {f: v for f, v in versions.items() if v != version}
+    for f, v in wrong.items():
+        fail(f"{f} is at {v!r}, .claude-plugin/plugin.json says {version}")
+    if not wrong:
+        ok(f"all {len(versions) + 1} manifests at {version}")
+for f, name in (("gemini-extension.json", gemini.get("name")), (".antigravity-plugin/plugin.json", antigravity.get("name"))):
+    if name != plugin["name"]:
+        fail(f"{f} name is {name!r}, expected {plugin['name']!r}")
 changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
 if re.search(rf"^## {re.escape(version)} \(\d{{4}}-\d{{2}}-\d{{2}}\)", changelog, re.M):
     ok(f"CHANGELOG.md has a dated {version} section")
 else:
     fail(f"CHANGELOG.md has no '## {version} (YYYY-MM-DD)' section")
+
+print("Gemini CLI and Antigravity connect the MCP server")
+placeholder = re.compile(r"\$\{(\w+)\}")
+servers = {
+    "gemini-extension.json": (
+        gemini.get("mcpServers", {}).get("schemasketch", {}),
+        "httpUrl",
+        {s.get("envVar") for s in gemini.get("settings", [])},
+    ),
+    "mcp_config.json": (
+        mcp_config.get("mcpServers", {}).get("schemasketch", {}),
+        "serverUrl",
+        {v.get("name") for v in mcp_config.get("mcpServers", {}).get("schemasketch", {}).get("variables", [])},
+    ),
+}
+server_urls = {}
+for f, (server, url_key, declared) in servers.items():
+    url = server.get(url_key)
+    if not url:
+        fail(f"{f}: no schemasketch server with {url_key!r}")
+        continue
+    server_urls[f] = url
+    used = set(placeholder.findall(json.dumps(server.get("headers", {}))))
+    if not used:
+        fail(f"{f}: the server has no ${{...}} token in its headers")
+    elif used - declared:
+        fail(f"{f}: {', '.join(sorted(used - declared))} used in headers but never asked for")
+    else:
+        ok(f"{f}: {url}, token from {', '.join(sorted(used))}")
 
 skill_path = ROOT / "skills/schemasketch/SKILL.md"
 _, skill_text = frontmatter(skill_path)
@@ -107,7 +154,14 @@ else:
     print("Tools match the live MCP server")
     try:
         _, body = fetch(SERVER_CARD)
-        live = {t["name"] for t in json.loads(body)["tools"]}
+        card = json.loads(body)
+        live = {t["name"] for t in card["tools"]}
+        hosted = {t.get("url") for t in card.get("transport", []) if t.get("type") == "streamable-http"}
+        for f, url in server_urls.items():
+            if url in hosted:
+                ok(f"{f} uses the server card's hosted URL")
+            else:
+                fail(f"{f} uses {url}, the server card lists {', '.join(sorted(filter(None, hosted))) or 'no hosted URL'}")
         section = skill_text.split("## Tools available", 1)[-1]
         named = set(re.findall(r"`([a-z]+(?:_[a-z]+)+)`", section))
         if named == live:
