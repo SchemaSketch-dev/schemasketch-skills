@@ -10,6 +10,8 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+- CI: `actions/checkout` v4 → v7 (#5). No change to the skill itself.
+
 ## 1.0.0 (2026-11-15)
 
 First versioned release.
