@@ -10,6 +10,8 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+## 1.0.3 (2026-11-16)
+
 - CI: `actions/setup-python` v5 → v7 (#7). No change to the skill itself.
 
 ## 1.0.2 (2026-11-16)
