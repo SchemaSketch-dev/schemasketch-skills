@@ -1,0 +1,35 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "schemasketch",
+  "version": "1.2.0",
+  "description": "Design, edit, validate, import and export database diagrams with SchemaSketch: SQL DDL, Laravel migrations and Eloquent models, Mermaid and PlantUML. Connects the hosted MCP server and adds the usage skill.",
+  "author": {
+    "name": "SchemaSketch",
+    "url": "https://schemasketch.dev"
+  },
+  "homepage": "https://schemasketch.dev",
+  "repository": "https://github.com/SchemaSketch-dev/schemasketch-skills",
+  "license": "MIT",
+  "keywords": [
+    "database",
+    "schema",
+    "erd",
+    "dbml",
+    "sql",
+    "laravel",
+    "mermaid",
+    "plantuml",
+    "mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "SchemaSketch",
+        "shortDescription": "Database diagrams from your agent: SQL, Laravel, Mermaid, PlantUML.",
+        "developerName": "SchemaSketch",
+        "websiteURL": "https://schemasketch.dev",
+        "defaultPrompt": "Show my SchemaSketch diagrams"
+      }
+    }
+  }
+}

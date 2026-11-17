@@ -10,6 +10,17 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+## 1.2.0 (2026-11-17)
+
+- Packaged for more agents. An [Agent Plugins 1.0](https://agent-plugins.org) manifest
+  (`plugin.json`, `mcp.json`) makes the repository installable in OpenAI Codex (also via
+  `codex plugin marketplace add`), GitHub Copilot CLI and Kiro. A Cursor plugin
+  (`.cursor-plugin/`) and a Devin Desktop / Windsurf plugin (`.devin-plugin/`) are added
+  too. Codex, Cursor and Devin also connect the hosted MCP server and ask for the
+  SchemaSketch token. Copilot CLI and Kiro install the skill, with the token added once
+  in their MCP settings. The README also shows how to connect from OpenCode.
+- Checks and the release script cover the new manifests.
+
 ## 1.1.1 (2026-11-17)
 
 - The repository moved to the SchemaSketch organization on GitHub:
