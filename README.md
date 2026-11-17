@@ -1,11 +1,11 @@
 # SchemaSketch Skills
 
-[![check](https://github.com/sioannides/schemasketch-skills/actions/workflows/check.yml/badge.svg)](https://github.com/sioannides/schemasketch-skills/actions/workflows/check.yml)
-[![release](https://img.shields.io/github/v/release/sioannides/schemasketch-skills?label=release)](https://github.com/sioannides/schemasketch-skills/releases)
+[![check](https://github.com/SchemaSketch-dev/schemasketch-skills/actions/workflows/check.yml/badge.svg)](https://github.com/SchemaSketch-dev/schemasketch-skills/actions/workflows/check.yml)
+[![release](https://img.shields.io/github/v/release/SchemaSketch-dev/schemasketch-skills?label=release)](https://github.com/SchemaSketch-dev/schemasketch-skills/releases)
 [![skills.sh](https://img.shields.io/badge/skills.sh-schemasketch-black)](https://www.skills.sh/sioannides/schemasketch-skills)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-D97757)](#claude-code-plugin)
 [![Gemini CLI extension](https://img.shields.io/badge/Gemini%20CLI-extension-4285F4)](#gemini-cli-extension)
-[![license](https://img.shields.io/github/license/sioannides/schemasketch-skills)](LICENSE)
+[![license](https://img.shields.io/github/license/SchemaSketch-dev/schemasketch-skills)](LICENSE)
 
 Agent skills for working with [SchemaSketch](https://schemasketch.dev), a free
 hosted database-diagramming tool, via its MCP server.
@@ -18,7 +18,7 @@ Using the [`skills` CLI](https://github.com/vercel-labs/skills) (works with Clau
 Cursor, OpenCode, Codex, and other compatible agents):
 
 ```bash
-npx skills add sioannides/schemasketch-skills
+npx skills add SchemaSketch-dev/schemasketch-skills
 ```
 
 This copies `skills/schemasketch/SKILL.md` into your agent's local skills directory (e.g.
@@ -28,13 +28,13 @@ description. Update later with `npx skills update`.
 ### Claude Code plugin
 
 ```
-/plugin install schemasketch --marketplace sioannides/schemasketch-skills
+/plugin install schemasketch --marketplace SchemaSketch-dev/schemasketch-skills
 ```
 
 Or in two steps on older Claude Code versions:
 
 ```
-/plugin marketplace add sioannides/schemasketch-skills
+/plugin marketplace add SchemaSketch-dev/schemasketch-skills
 /plugin install schemasketch@schemasketch
 ```
 
@@ -43,7 +43,7 @@ Or in two steps on older Claude Code versions:
 Installs the skill **and** connects the SchemaSketch MCP server in one step:
 
 ```bash
-gemini extensions install https://github.com/sioannides/schemasketch-skills
+gemini extensions install https://github.com/SchemaSketch-dev/schemasketch-skills
 ```
 
 It asks for your SchemaSketch token (get one at [schemasketch.dev/app](https://schemasketch.dev/app):
@@ -55,7 +55,7 @@ It asks for your SchemaSketch token (get one at [schemasketch.dev/app](https://s
 Also installs the skill and connects the MCP server:
 
 ```bash
-agy plugin install https://github.com/sioannides/schemasketch-skills
+agy plugin install https://github.com/SchemaSketch-dev/schemasketch-skills
 agy plugin enable schemasketch
 ```
 
