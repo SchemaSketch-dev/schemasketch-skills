@@ -10,6 +10,8 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+## 1.1.1 (2026-11-17)
+
 - The repository moved to the SchemaSketch organization on GitHub:
   https://github.com/SchemaSketch-dev/schemasketch-skills (old links and existing installs
   keep working through GitHub's redirect). Install commands now use the new path. No change
