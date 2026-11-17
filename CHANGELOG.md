@@ -10,6 +10,8 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+## 1.2.0 (2026-11-17)
+
 - Packaged for more agents. An [Agent Plugins 1.0](https://agent-plugins.org) manifest
   (`plugin.json`, `mcp.json`) makes the repository installable in OpenAI Codex (also via
   `codex plugin marketplace add`), GitHub Copilot CLI and Kiro. A Cursor plugin
