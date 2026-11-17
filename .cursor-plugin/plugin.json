@@ -1,0 +1,44 @@
+{
+  "name": "schemasketch",
+  "version": "1.1.1",
+  "description": "Design, edit, validate, import and export database diagrams with SchemaSketch: SQL DDL, Laravel migrations and Eloquent models, Mermaid and PlantUML. Connects the hosted MCP server and adds the usage skill.",
+  "author": {
+    "name": "SchemaSketch",
+    "url": "https://schemasketch.dev"
+  },
+  "homepage": "https://schemasketch.dev",
+  "repository": "https://github.com/SchemaSketch-dev/schemasketch-skills",
+  "license": "MIT",
+  "keywords": [
+    "database",
+    "schema",
+    "erd",
+    "dbml",
+    "sql",
+    "laravel",
+    "mermaid",
+    "plantuml",
+    "mcp"
+  ],
+  "variables": {
+    "type": "object",
+    "properties": {
+      "SCHEMASKETCH_TOKEN": {
+        "type": "string",
+        "title": "SchemaSketch token",
+        "description": "Personal access token. Get one at https://schemasketch.dev/app: sign in, click \"Connect AI agent\", choose Hosted, generate."
+      }
+    },
+    "required": [
+      "SCHEMASKETCH_TOKEN"
+    ]
+  },
+  "mcpServers": {
+    "schemasketch": {
+      "url": "https://mcp.schemasketch.dev/mcp",
+      "headers": {
+        "Authorization": "Bearer ${SCHEMASKETCH_TOKEN}"
+      }
+    }
+  }
+}

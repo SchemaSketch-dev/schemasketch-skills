@@ -6,7 +6,8 @@
 #   scripts/release.sh minor     # 1.0.1 -> 1.1.0   new guidance (new tools, workflows)
 #   scripts/release.sh major     # 1.1.0 -> 2.0.0   changes that break old setups
 #       Prepares the release on dev: runs the checks, bumps the version in
-#       every manifest (Claude, Gemini CLI, Antigravity), dates the changelog,
+#       every manifest (Claude, Gemini CLI, Antigravity, Agent Plugins,
+#       Cursor, Devin), dates the changelog,
 #       commits "Release X.Y.Z", pushes dev and opens a pull request to main.
 #
 #   scripts/release.sh tag
@@ -17,7 +18,7 @@
 #   add --dry-run to see what would happen without changing anything
 set -euo pipefail
 
-usage() { sed -n '2,18p' "$0" | sed 's/^# \{0,1\}//'; exit 2; }
+usage() { sed -n '2,19p' "$0" | sed 's/^# \{0,1\}//'; exit 2; }
 
 mode="" dry=0
 for arg in "$@"; do
@@ -86,14 +87,15 @@ echo "Preparing $current -> $next ($mode)"
 echo "$notes" | sed 's/^/  /'
 
 if [ "$dry" = 1 ]; then
-  echo "  would set version $next in all four manifests"
+  echo "  would set version $next in every manifest"
   echo "  would rename \"## Unreleased\" to \"## $next ($(date +%F))\" in CHANGELOG.md"
 else
   python3 - "$next" <<'PY'
 import json, sys
 version = sys.argv[1]
 for path in (".claude-plugin/plugin.json", ".claude-plugin/marketplace.json",
-             "gemini-extension.json", ".antigravity-plugin/plugin.json"):
+             "gemini-extension.json", ".antigravity-plugin/plugin.json",
+             "plugin.json", ".cursor-plugin/plugin.json", ".devin-plugin/plugin.json"):
     data = json.load(open(path))
     if "plugins" in data:
         for plugin in data["plugins"]:
