@@ -29,9 +29,15 @@ description. Update later with `npx skills update`.
 
 ### Claude Code plugin
 
+Installs the skill **and** connects the SchemaSketch MCP server:
+
 ```
 /plugin install schemasketch --marketplace SchemaSketch-dev/schemasketch-skills
 ```
+
+When you enable it, Claude Code asks for your SchemaSketch token (in the app: **Connect AI
+agent**) and keeps it as a secret. If you added the SchemaSketch MCP server by hand before,
+remove that entry (`claude mcp remove schemasketch`) so the tools don't show up twice.
 
 Or in two steps on older Claude Code versions:
 
@@ -145,8 +151,8 @@ The repository is packaged for each agent:
 | `.cursor-plugin/` | Cursor |
 | `.devin-plugin/` | Devin Desktop / Windsurf |
 
-The skills CLI and the Claude Code plugin install the skill only, not the MCP connection
-(the Gemini CLI, Antigravity, Codex, Cursor and Devin installs above do both). To connect, point your agent at
+The skills CLI installs the skill only, not the MCP connection
+(the Claude Code, Gemini CLI, Antigravity, Codex, Cursor and Devin installs above do both). To connect, point your agent at
 [schemasketch.dev/agent-setup/prompt.md](https://schemasketch.dev/agent-setup/prompt.md), which is
 written to be fetched and executed directly by an agent.
 
