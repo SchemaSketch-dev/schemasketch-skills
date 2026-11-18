@@ -143,7 +143,8 @@ The repository is packaged for each agent:
 
 | File | Read by |
 |---|---|
-| `.claude-plugin/` | Claude Code (plugin and marketplace) |
+| `.claude-plugin/` | Claude Code marketplace (lists the plugin below) |
+| `plugins/schemasketch/` | Claude Code plugin, as submitted to Anthropic's plugin directory (its `SKILL.md` is a copy of `skills/schemasketch/SKILL.md`, checked by `scripts/check.py`) |
 | `gemini-extension.json` | Gemini CLI |
 | `.antigravity-plugin/`, `mcp_config.json` | Antigravity |
 | `plugin.json`, `mcp.json` ([Agent Plugins 1.0](https://agent-plugins.org)) | Codex, GitHub Copilot CLI, Kiro |

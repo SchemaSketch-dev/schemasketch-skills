@@ -90,7 +90,7 @@ for path in skills:
         ok(f"{folder}: description ({len(description)} characters)")
 
 print("Versions")
-plugin = json.loads((ROOT / ".claude-plugin/plugin.json").read_text())
+plugin = json.loads((ROOT / "plugins/schemasketch/.claude-plugin/plugin.json").read_text())
 market = json.loads((ROOT / ".claude-plugin/marketplace.json").read_text())
 gemini = json.loads((ROOT / "gemini-extension.json").read_text())
 antigravity = json.loads((ROOT / ".antigravity-plugin/plugin.json").read_text())
@@ -115,7 +115,7 @@ if not re.fullmatch(r"\d+\.\d+\.\d+", version):
 else:
     wrong = {f: v for f, v in versions.items() if v != version}
     for f, v in wrong.items():
-        fail(f"{f} is at {v!r}, .claude-plugin/plugin.json says {version}")
+        fail(f"{f} is at {v!r}, plugins/schemasketch/.claude-plugin/plugin.json says {version}")
     if not wrong:
         ok(f"all {len(versions) + 1} manifests at {version}")
 names = {
@@ -187,18 +187,18 @@ claude_server = plugin.get("mcpServers", {}).get("schemasketch", {})
 claude_used = set(re.findall(r"\$\{user_config\.(\w+)\}", json.dumps(claude_server.get("headers", {}))))
 claude_declared = plugin.get("userConfig", {})
 if claude_server.get("type") != "http" or not claude_server.get("url"):
-    fail(".claude-plugin/plugin.json: no schemasketch server with type http and a url")
+    fail("plugins/schemasketch/.claude-plugin/plugin.json: no schemasketch server with type http and a url")
 elif not claude_used:
-    fail(".claude-plugin/plugin.json: the server has no ${user_config.…} token in its headers")
+    fail("plugins/schemasketch/.claude-plugin/plugin.json: the server has no ${user_config.…} token in its headers")
 elif claude_used - set(claude_declared):
-    fail(f".claude-plugin/plugin.json: {', '.join(sorted(claude_used - set(claude_declared)))} used in headers but not in userConfig")
+    fail(f"plugins/schemasketch/.claude-plugin/plugin.json: {', '.join(sorted(claude_used - set(claude_declared)))} used in headers but not in userConfig")
 elif not all(claude_declared[k].get("sensitive") for k in claude_used):
-    fail(".claude-plugin/plugin.json: the token's userConfig entry must be sensitive")
+    fail("plugins/schemasketch/.claude-plugin/plugin.json: the token's userConfig entry must be sensitive")
 elif not str(plugin.get("privacyPolicyUrl", "")).startswith("https://"):
-    fail(".claude-plugin/plugin.json: privacyPolicyUrl must be set (an https URL) when the plugin connects a remote server")
+    fail("plugins/schemasketch/.claude-plugin/plugin.json: privacyPolicyUrl must be set (an https URL) when the plugin connects a remote server")
 else:
-    server_urls[".claude-plugin/plugin.json"] = claude_server["url"]
-    ok(f".claude-plugin/plugin.json: {claude_server['url']}, token from userConfig {', '.join(sorted(claude_used))}")
+    server_urls["plugins/schemasketch/.claude-plugin/plugin.json"] = claude_server["url"]
+    ok(f"plugins/schemasketch/.claude-plugin/plugin.json: {claude_server['url']}, token from userConfig {', '.join(sorted(claude_used))}")
 
 # mcp.json (Agent Plugins) must not carry a header: Copilot CLI sends remote
 # headers literally, so a ${...} placeholder would reach the server as text.
@@ -214,6 +214,25 @@ elif auth != {"type": "api_key", "headerScheme": "bearer"}:
 else:
     server_urls["mcp.json"] = portable_server["url"]
     ok(f"mcp.json: {portable_server['url']}, Codex asks for the token on connect")
+
+print("Claude plugin folder (submitted to Anthropic's directory)")
+plugin_dir = ROOT / "plugins/schemasketch"
+if (plugin_dir / "skills/schemasketch/SKILL.md").read_bytes() != (ROOT / "skills/schemasketch/SKILL.md").read_bytes():
+    fail("plugins/schemasketch/skills/schemasketch/SKILL.md differs from skills/schemasketch/SKILL.md: copy it over")
+else:
+    ok("plugin's SKILL.md is the same as skills/schemasketch/SKILL.md")
+if (plugin_dir / ".claude-plugin/icon.png").read_bytes() != (ROOT / ".claude-plugin/icon.png").read_bytes():
+    fail("plugins/schemasketch/.claude-plugin/icon.png differs from .claude-plugin/icon.png")
+# The directory accepts only Markdown, text, JSON, YAML and images from unverified organizations
+allowed = {".md", ".txt", ".json", ".yaml", ".yml", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico", ""}
+for f in plugin_dir.rglob("*"):
+    if f.is_file():
+        rel = f.relative_to(ROOT)
+        if f.suffix.lower() not in allowed:
+            fail(f"{rel}: the plugin directory doesn't accept this file type")
+        elif f.suffix.lower() not in {".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico"} and f.read_bytes().startswith(b"#!"):
+            fail(f"{rel}: starts with #!, which the plugin directory refuses")
+ok("plugin folder holds only files the directory accepts")
 
 skill_path = ROOT / "skills/schemasketch/SKILL.md"
 _, skill_text = frontmatter(skill_path)
