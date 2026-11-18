@@ -10,6 +10,13 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+- The Claude Code plugin now connects the hosted MCP server too: it asks for the SchemaSketch
+  token when the plugin is enabled (stored as a secret) and sends it as a bearer token. Before,
+  it installed only the skill, so its tools were missing until the server was added by hand.
+- Sharp 512px plugin icon (the old one was the 180px app icon scaled up).
+- `privacyPolicyUrl` in the Claude Code plugin manifest, as Anthropic's plugin directory asks
+  of plugins that connect a remote server.
+
 ## 1.2.0 (2026-11-17)
 
 - Packaged for more agents. An [Agent Plugins 1.0](https://agent-plugins.org) manifest

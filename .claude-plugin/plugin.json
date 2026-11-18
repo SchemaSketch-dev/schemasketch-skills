@@ -20,5 +20,24 @@
     "plantuml",
     "mcp"
   ],
-  "icon": ".claude-plugin/icon.png"
+  "icon": ".claude-plugin/icon.png",
+  "privacyPolicyUrl": "https://schemasketch.dev/privacy",
+  "userConfig": {
+    "schemasketch_token": {
+      "type": "string",
+      "title": "SchemaSketch token",
+      "description": "Create one at schemasketch.dev: open the app menu and choose Connect AI agent.",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "mcpServers": {
+    "schemasketch": {
+      "type": "http",
+      "url": "https://mcp.schemasketch.dev/mcp",
+      "headers": {
+        "Authorization": "Bearer ${user_config.schemasketch_token}"
+      }
+    }
+  }
 }

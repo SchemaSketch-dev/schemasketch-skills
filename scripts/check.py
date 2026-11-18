@@ -12,7 +12,8 @@ Checks:
      Codex marketplace by name), CHANGELOG.md has a dated section for the
      version, and plugin.json / mcp.json declare the Agent Plugins 1.0 schemas.
   2b. Every plugin that connects the hosted MCP server does so with a token
-     the user is asked for: ${VAR} in Gemini CLI, Antigravity, Cursor and
+     the user is asked for: ${user_config.KEY} in Claude Code (sensitive
+     userConfig), ${VAR} in Gemini CLI, Antigravity, Cursor and
      Devin headers (declared, where the agent has a way to declare it), and
      Codex's bearer auth block in mcp.json, which must have no headers.
      Online, every URL must be the server card's streamable-http URL.
@@ -179,6 +180,25 @@ for f, (server, url_key, declared) in servers.items():
         fail(f"{f}: {', '.join(sorted(used - declared))} used in headers but never asked for")
     else:
         ok(f"{f}: {url}, token from {', '.join(sorted(used))}")
+
+# Claude Code asks for the token through userConfig (sensitive) and fills
+# ${user_config.KEY} in the http server's headers.
+claude_server = plugin.get("mcpServers", {}).get("schemasketch", {})
+claude_used = set(re.findall(r"\$\{user_config\.(\w+)\}", json.dumps(claude_server.get("headers", {}))))
+claude_declared = plugin.get("userConfig", {})
+if claude_server.get("type") != "http" or not claude_server.get("url"):
+    fail(".claude-plugin/plugin.json: no schemasketch server with type http and a url")
+elif not claude_used:
+    fail(".claude-plugin/plugin.json: the server has no ${user_config.…} token in its headers")
+elif claude_used - set(claude_declared):
+    fail(f".claude-plugin/plugin.json: {', '.join(sorted(claude_used - set(claude_declared)))} used in headers but not in userConfig")
+elif not all(claude_declared[k].get("sensitive") for k in claude_used):
+    fail(".claude-plugin/plugin.json: the token's userConfig entry must be sensitive")
+elif not str(plugin.get("privacyPolicyUrl", "")).startswith("https://"):
+    fail(".claude-plugin/plugin.json: privacyPolicyUrl must be set (an https URL) when the plugin connects a remote server")
+else:
+    server_urls[".claude-plugin/plugin.json"] = claude_server["url"]
+    ok(f".claude-plugin/plugin.json: {claude_server['url']}, token from userConfig {', '.join(sorted(claude_used))}")
 
 # mcp.json (Agent Plugins) must not carry a header: Copilot CLI sends remote
 # headers literally, so a ${...} placeholder would reach the server as text.
