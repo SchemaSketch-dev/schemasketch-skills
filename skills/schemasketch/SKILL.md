@@ -12,13 +12,12 @@ via its MCP server rather than the web UI.
 
 ## Setup
 
-Fetch and follow https://schemasketch.dev/agent-setup/prompt.md — it's written
-directly for an agent (not a human) and covers getting a token, picking the
-right connection method for whichever client you are (a hosted HTTPS
-endpoint for Claude Code/Cursor/etc., a one-click extension for Claude
-Desktop, or a local stdio process for anything else), and verifying the
-connection. Full reference: https://schemasketch.dev/docs#mcp-docs — auth
-details: https://schemasketch.dev/auth.md
+The tools below come from the SchemaSketch MCP server. If they aren't
+available, the server isn't connected yet: tell the user, and point them to
+the setup guide for their client at https://schemasketch.dev/docs#mcp-docs
+(it covers getting a token from the app's **Connect AI agent** menu and
+connecting Claude Code, Claude Desktop, Cursor and other clients). Token and
+auth details: https://schemasketch.dev/auth.md
 
 ## Workflow
 

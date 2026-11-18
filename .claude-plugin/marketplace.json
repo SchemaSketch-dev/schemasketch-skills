@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "schemasketch",
-      "source": "./",
+      "source": "./plugins/schemasketch",
       "description": "Design, edit, validate, import and export database diagrams with SchemaSketch's MCP server.",
       "version": "1.3.0",
       "category": "database"

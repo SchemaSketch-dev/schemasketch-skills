@@ -10,6 +10,12 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+- The Claude Code plugin moved to `plugins/schemasketch/` (the marketplace points there; installs
+  and updates work as before). That folder holds only what Anthropic's plugin directory accepts.
+- The skill's Setup section no longer tells the agent to fetch and follow a remote page. It now
+  says the tools come from the MCP server and points the user to the setup docs when they're
+  missing.
+
 ## 1.3.0 (2026-11-18)
 
 - The Claude Code plugin now connects the hosted MCP server too: it asks for the SchemaSketch

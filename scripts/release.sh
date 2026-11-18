@@ -38,13 +38,13 @@ run() { if [ "$dry" = 1 ]; then echo "  would run: $*"; else "$@"; fi; }
 git fetch --quiet --tags origin
 latest=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -n1)
 above() { [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | tail -n1)" = "$2" ] && [ "$1" != "$2" ]; }
-current=$(python3 -c 'import json;print(json.load(open(".claude-plugin/plugin.json"))["version"])')
+current=$(python3 -c 'import json;print(json.load(open("plugins/schemasketch/.claude-plugin/plugin.json"))["version"])')
 
 # ---------------------------------------------------------------------------
 # Step 2: tag the merged release on main.
 # ---------------------------------------------------------------------------
 if [ "$mode" = tag ]; then
-  version=$(git show origin/main:.claude-plugin/plugin.json | python3 -c 'import json,sys;print(json.load(sys.stdin)["version"])')
+  version=$(git show origin/main:plugins/schemasketch/.claude-plugin/plugin.json | python3 -c 'import json,sys;print(json.load(sys.stdin)["version"])')
   git rev-parse -q --verify "refs/tags/v$version" >/dev/null && fail "main is at $version, which is already tagged. Merge the release pull request first."
   [ -z "$latest" ] || above "${latest#v}" "$version" || fail "v$version is not above $latest."
   git show origin/main:CHANGELOG.md | grep -q "^## $version (" || fail "main's CHANGELOG.md has no dated $version section."
@@ -93,7 +93,7 @@ else
   python3 - "$next" <<'PY'
 import json, sys
 version = sys.argv[1]
-for path in (".claude-plugin/plugin.json", ".claude-plugin/marketplace.json",
+for path in ("plugins/schemasketch/.claude-plugin/plugin.json", ".claude-plugin/marketplace.json",
              "gemini-extension.json", ".antigravity-plugin/plugin.json",
              "plugin.json", ".cursor-plugin/plugin.json", ".devin-plugin/plugin.json"):
     data = json.load(open(path))
