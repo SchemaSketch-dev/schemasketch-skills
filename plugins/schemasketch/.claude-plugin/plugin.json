@@ -1,7 +1,7 @@
 {
   "name": "schemasketch",
   "description": "Design, edit, validate, import and export database diagrams with SchemaSketch's MCP server: SQL DDL, Laravel migrations and Eloquent models, Mermaid and PlantUML.",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "author": {
     "name": "SchemaSketch",
     "url": "https://schemasketch.dev"

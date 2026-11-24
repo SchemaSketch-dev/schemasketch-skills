@@ -12,6 +12,10 @@
 Agent skills for working with [SchemaSketch](https://schemasketch.dev), a free
 hosted database-diagramming tool, via its MCP server.
 
+[![Example: SaaS app (teams, billing, projects)](https://schemasketch.dev/api/public/diagrams/LSuBn7lbBYp8pdxAW3wQfb/image.svg)](https://schemasketch.dev/view?token=LSuBn7lbBYp8pdxAW3wQfb)
+
+<sub>This diagram is live: it's a SchemaSketch share link, so it updates when the diagram is edited.</sub>
+
 ## Install
 
 ### Any agent (skills CLI)
