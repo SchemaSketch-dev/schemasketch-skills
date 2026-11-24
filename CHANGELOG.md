@@ -10,6 +10,8 @@ to `main`; once it is merged, `scripts/release.sh tag` tags the release.
 
 ## Unreleased
 
+## 1.3.2 (2026-11-24)
+
 - README shows a live example diagram (a SchemaSketch share link that updates when the
   diagram is edited).
 
